@@ -1,0 +1,11 @@
+# core dependencies
+fastapi
+uvicorn
+
+# type check
+mypy
+pyright
+
+# lint and format
+black
+flake8
