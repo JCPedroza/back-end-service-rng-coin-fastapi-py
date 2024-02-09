@@ -4,8 +4,8 @@ from fastapi import FastAPI, Path
 from fastapi.responses import HTMLResponse
 
 COIN = "heads", "tails"
-MIN_TOSSES = 2
-MAX_TOSSES = 101
+MIN_FLIPS = 2
+MAX_FLIPS = 101
 OAPI_PATH = "/docs"
 RDOC_PATH = "/redocs"
 
@@ -14,7 +14,7 @@ app = FastAPI(docs_url=OAPI_PATH, redoc_url=RDOC_PATH)
 
 @app.get("/", response_class=HTMLResponse)
 def get_root() -> str:
-    """Get root instructions."""
+    """Display instructions."""
 
     return f"""
     <!DOCTYPE html>
@@ -34,13 +34,13 @@ def get_root() -> str:
 
 @app.get("/rng/coin")
 def get_rng_coin() -> dict[str, str]:
-    """Randomly generate a coin side."""
-    return {"coin-side": choice(COIN)}
+    """Simulate a coin flip."""
+    return {"coin-flip": choice(COIN)}
 
 
-@app.get("/rng/coin/{tosses}")
-def get_rng_coin_TOSSES(
-    tosses: Annotated[int, Path(ge=MIN_TOSSES, lt=MAX_TOSSES)]
+@app.get("/rng/coin/{flips}")
+def get_rng_coin_FLIPS(
+    flips: Annotated[int, Path(ge=MIN_FLIPS, lt=MAX_FLIPS)]
 ) -> dict[str, list[str]]:
-    """Randomly generate multiple coin sides."""
-    return {"coin-sides": [choice(COIN) for _ in range(tosses)]}
+    """Simulate multiple coin flips."""
+    return {"coin-flips": [choice(COIN) for _ in range(flips)]}
